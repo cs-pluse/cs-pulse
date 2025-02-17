@@ -5,7 +5,7 @@ schemaVersion: 1.1
 endpoints:
   # +required Unique name for the endpoint.
   # This name will be used when generating the managed API
-  - name: CS Pulse
+  - name: cs-pulse
     # +optional Display name for the endpoint.
     displayName: CS Pulse
     # +required Service section has the user service endpoint details
