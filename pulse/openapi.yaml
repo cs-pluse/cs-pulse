@@ -1,0 +1,257 @@
+---
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  "/pulse/role/{id}":
+    get:
+      tags:
+        - role-controller
+      operationId: getRoleById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/Role"
+    put:
+      tags:
+        - role-controller
+      operationId: updateRole
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Role"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/Role"
+    delete:
+      tags:
+        - role-controller
+      operationId: deleteRole
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  "/pulse/abt/{id}":
+    get:
+      tags:
+        - abt-controller
+      operationId: getABTById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ABT"
+    put:
+      tags:
+        - abt-controller
+      operationId: updateABT
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ABT"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ABT"
+    delete:
+      tags:
+        - abt-controller
+      operationId: deleteABT
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  "/pulse/role":
+    get:
+      tags:
+        - role-controller
+      operationId: getAllRoles
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Role"
+    post:
+      tags:
+        - role-controller
+      operationId: createRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Role"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/Role"
+  "/pulse/abt":
+    get:
+      tags:
+        - abt-controller
+      operationId: getAllABTs
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ABT"
+    post:
+      tags:
+        - abt-controller
+      operationId: createABT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ABT"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ABT"
+  "/pulse/role/name/{name}":
+    get:
+      tags:
+        - role-controller
+      operationId: findByRoleName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Role"
+  "/pulse/abt/name/{name}":
+    get:
+      tags:
+        - abt-controller
+      operationId: findByABTName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ABT"
+  "/":
+    get:
+      tags:
+        - health-controller
+      operationId: index
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+components:
+  schemas:
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        roleName:
+          type: string
+    ABT:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        abtName:
+          type: string
+        businessUnit:
+          type: string
