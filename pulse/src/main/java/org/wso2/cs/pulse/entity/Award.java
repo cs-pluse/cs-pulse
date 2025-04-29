@@ -3,34 +3,31 @@ package org.wso2.cs.pulse.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "team_award")
-public class TeamAward {
+@Table(name = "award")
+public class Award {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private Integer id;
     private String awardName;
     private String description;
+    private String type; //Team or Individual
+    private Integer abt_id;
 
-    @ManyToOne
-    @JoinColumn(name = "abt_id", referencedColumnName = "id")
-    private ABT abt;
-
-    public TeamAward() {
+    public Award() {
     }
 
-    public TeamAward(String awardName, String description, ABT abt) {
+    public Award(String awardName, String description, Integer abt_id) {
         this.awardName = awardName;
         this.description = description;
-        this.abt = abt;
+        this.abt_id = abt_id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    private void setId(Long id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,11 +47,19 @@ public class TeamAward {
         this.description = description;
     }
 
-    public ABT getAbt() {
-        return abt;
+    public String getType() {
+        return type;
     }
 
-    public void setAbt(ABT abt) {
-        this.abt = abt;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getAbt() {
+        return abt_id;
+    }
+
+    public void setAbt(Integer abt_id) {
+        this.abt_id = abt_id;
     }
 }
