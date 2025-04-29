@@ -12,7 +12,7 @@ public class ABT
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String abtName;
 
@@ -26,11 +26,11 @@ public class ABT
         this.businessUnit = businessUnit;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    private void setId(Long id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 

@@ -1,5 +1,6 @@
 package org.wso2.cs.pulse.service;
 
+import org.wso2.cs.pulse.dto.GameScoreResponseDTO;
 import org.wso2.cs.pulse.entity.GameScore;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface GameScoreService {
 
     Optional<GameScore> getGameScoreById(Long id);
 
-    List<GameScore> getAllGameScores();
+    List<GameScoreResponseDTO> getAllGameScores();
 
     List<GameScore> findByCriteria(String criteria);
 

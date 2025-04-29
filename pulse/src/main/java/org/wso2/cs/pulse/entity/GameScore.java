@@ -8,11 +8,15 @@ public class GameScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private String criteria;
-    private Integer points;
-    private Integer score;
+    @ManyToOne
+    @JoinColumn(name = "criteria_id", referencedColumnName = "id")
+    private Criteria criteria;
+
+    @ManyToOne
+    @JoinColumn(name = "session_id", referencedColumnName = "id")
+    private Session session;
 
     @ManyToOne
     @JoinColumn(name = "abt_id", referencedColumnName = "id")
@@ -20,44 +24,35 @@ public class GameScore {
 
     public GameScore() {
     }
-
-    public GameScore(String criteria, Integer points, Integer score, ABT abt) {
+    // Constructors, Getters and Setters
+    public GameScore(Criteria criteria, Session session, ABT abt) {
         this.criteria = criteria;
-        this.points = points;
-        this.score = score;
+        this.session = session;
         this.abt = abt;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    private void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getCriteria() {
+    public Criteria getCriteria() {
         return criteria;
     }
 
-    public void setCriteria(String criteria) {
+    public void setCriteria(Criteria criteria) {
         this.criteria = criteria;
     }
 
-    public Integer getPoints() {
-        return points;
+    public Session getSession() {
+        return session;
     }
 
-    public void setPoints(Integer points) {
-        this.points = points;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public ABT getAbt() {

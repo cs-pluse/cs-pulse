@@ -13,6 +13,4 @@ import java.util.List;
 @Repository
 public interface GameScoreRepository extends JpaRepository<GameScore, Long> {
 
-    @Query(value = "SELECT * FROM game_score WHERE criteria = :criteria", nativeQuery = true)
-    List<GameScore> findByCriteria(@Param("criteria") String criteria);
 }
