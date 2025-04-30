@@ -7,7 +7,7 @@ import org.wso2.cs.pulse.dto.GameScoreResponseDTO;
 import org.wso2.cs.pulse.entity.GameScore;
 import org.wso2.cs.pulse.service.GameScoreService;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pulse/gamescore")
@@ -23,9 +23,9 @@ public class GameScoreController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GameScoreResponseDTO>> getAllGameScores() {
-        List<GameScoreResponseDTO> gameScores = gameScoreService.getAllGameScores();
-        return ResponseEntity.ok(gameScores);
+    public ResponseEntity<Map<String, GameScoreResponseDTO>> getLatestGameScores() {
+        Map<String, GameScoreResponseDTO> response = gameScoreService.getLatestGameScoresGroupedByAbt();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

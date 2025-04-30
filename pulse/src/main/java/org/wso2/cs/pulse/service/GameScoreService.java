@@ -4,6 +4,7 @@ import org.wso2.cs.pulse.dto.GameScoreResponseDTO;
 import org.wso2.cs.pulse.entity.GameScore;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface GameScoreService {
@@ -14,9 +15,9 @@ public interface GameScoreService {
 
     Optional<GameScore> getGameScoreById(Long id);
 
-    List<GameScoreResponseDTO> getAllGameScores();
-
     List<GameScore> findByCriteria(String criteria);
 
     void updateGameScore(GameScore gameScore);
+
+    Map<String, GameScoreResponseDTO> getLatestGameScoresGroupedByAbt();
 }

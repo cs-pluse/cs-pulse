@@ -12,5 +12,6 @@ import java.util.List;
 @Transactional
 @Repository
 public interface GameScoreRepository extends JpaRepository<GameScore, Long> {
-
+    @Query("SELECT gs FROM GameScore gs WHERE gs.session.date = (SELECT MAX(s.date) FROM Session s)")
+    List<GameScore> findLatestSessionGameScores();
 }
