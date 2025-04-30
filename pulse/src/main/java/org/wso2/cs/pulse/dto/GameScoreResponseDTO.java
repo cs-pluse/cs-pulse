@@ -1,33 +1,17 @@
 package org.wso2.cs.pulse.dto;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public class GameScoreResponseDTO {
-    private Integer id;
-    private String criteriaName;
     private String sessionName;
-    private String abtName;
+    private LocalDate sessionDate;
+    private List<CriteriaDTO> criteria;
 
-    public GameScoreResponseDTO(Integer id, String criteriaName, String sessionName, String abtName) {
-        this.id = id;
-        this.criteriaName = criteriaName;
+    public GameScoreResponseDTO(String sessionName, LocalDate sessionDate, List<CriteriaDTO> criteria) {
         this.sessionName = sessionName;
-        this.abtName = abtName;
-    }
-
-    // Getters and Setters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCriteriaName() {
-        return criteriaName;
-    }
-
-    public void setCriteriaName(String criteriaName) {
-        this.criteriaName = criteriaName;
+        this.sessionDate = sessionDate;
+        this.criteria = criteria;
     }
 
     public String getSessionName() {
@@ -38,11 +22,19 @@ public class GameScoreResponseDTO {
         this.sessionName = sessionName;
     }
 
-    public String getAbtName() {
-        return abtName;
+    public LocalDate getSessionDate() {
+        return sessionDate;
     }
 
-    public void setAbtName(String abtName) {
-        this.abtName = abtName;
+    public void setSessionDate(LocalDate sessionDate) {
+        this.sessionDate = sessionDate;
+    }
+
+    public List<CriteriaDTO> getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(List<CriteriaDTO> criteria) {
+        this.criteria = criteria;
     }
 }
