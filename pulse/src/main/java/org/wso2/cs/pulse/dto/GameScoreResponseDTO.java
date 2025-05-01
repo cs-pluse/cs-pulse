@@ -7,11 +7,13 @@ public class GameScoreResponseDTO {
     private String sessionName;
     private LocalDate sessionDate;
     private List<CriteriaDTO> criteria;
+    private List<AwardDTO> awards;
 
-    public GameScoreResponseDTO(String sessionName, LocalDate sessionDate, List<CriteriaDTO> criteria) {
+    public GameScoreResponseDTO(String sessionName, LocalDate sessionDate, List<CriteriaDTO> criteria,  List<AwardDTO> awards) {
         this.sessionName = sessionName;
         this.sessionDate = sessionDate;
         this.criteria = criteria;
+        this.awards = awards;
     }
 
     public String getSessionName() {
@@ -36,5 +38,13 @@ public class GameScoreResponseDTO {
 
     public void setCriteria(List<CriteriaDTO> criteria) {
         this.criteria = criteria;
+    }
+
+    public List<AwardDTO> getAwards() {
+        return awards;
+    }
+
+    public void setAwards(List<AwardDTO> awards) {
+        this.awards = awards;
     }
 }
