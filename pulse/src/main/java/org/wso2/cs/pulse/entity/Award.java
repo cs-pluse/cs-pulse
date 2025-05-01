@@ -12,15 +12,20 @@ public class Award {
     private String awardName;
     private String description;
     private String type; //Team or Individual
-    private Integer abt_id;
+    @Column(name = "abt_id")
+    private Integer abtId;
+
+    @Column(name = "session_id")
+    private Integer sessionId;
 
     public Award() {
     }
 
-    public Award(String awardName, String description, Integer abt_id) {
+    public Award(String awardName, String description, Integer abtId, Integer sessionId) {
         this.awardName = awardName;
         this.description = description;
-        this.abt_id = abt_id;
+        this.abtId = abtId;
+        this.sessionId = sessionId;
     }
 
     public Integer getId() {
@@ -55,11 +60,19 @@ public class Award {
         this.type = type;
     }
 
-    public Integer getAbt() {
-        return abt_id;
+    public Integer getAbtId() {
+        return abtId;
     }
 
-    public void setAbt(Integer abt_id) {
-        this.abt_id = abt_id;
+    public void setAbtId(Integer abtId) {
+        this.abtId = abtId;
+    }
+
+    public Integer getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(Integer sessionId) {
+        this.sessionId = sessionId;
     }
 }
