@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/pulse/gamescore")
+@CrossOrigin
 public class GameScoreController {
 
     @Autowired
