@@ -2,11 +2,13 @@ package org.wso2.cs.pulse.dto;
 
 public class CriteriaDTO {
     private String name;
-    private int points;
+    private int maxPoints;      // From criteria.points
+    private int earnedPoints;   // From game_scores.score
 
-    public CriteriaDTO(String name, int points) {
+    public CriteriaDTO(String name, int maxPoints, int earnedPoints) {
         this.name = name;
-        this.points = points;
+        this.maxPoints = maxPoints;
+        this.earnedPoints = earnedPoints;
     }
 
     public String getName() {
@@ -17,11 +19,17 @@ public class CriteriaDTO {
         this.name = name;
     }
 
-    public int getPoints() {
-        return points;
+    public int getMaxPoints() {
+        return maxPoints;
+    }
+    public void setMaxPoints(int maxPoints) {
+        this.maxPoints = maxPoints;
+    }
+    public int getEarnedPoints() {
+        return earnedPoints;
+    }
+    public void setEarnedPoints(int earnedPoints) {
+        this.earnedPoints = earnedPoints;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
 }
