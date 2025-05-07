@@ -26,12 +26,25 @@ public class GameScoreImpl implements GameScoreService {
     @Autowired
     private AwardRepository awardRepository;
 
+
     public GameScoreImpl(final GameScoreRepository gameScoreRepository) {
         this.gameScoreRepository = gameScoreRepository;
     }
 
+    // Add score validation logic
+    private void validateScore(GameScore gameScore) {
+        int maxScore = gameScore.getCriteria().getPoints();
+        if(gameScore.getScore() > maxScore) {
+            throw new IllegalArgumentException(
+                    "Score cannot exceed maximum points of " + maxScore +
+                            " for criteria: " + gameScore.getCriteria().getName()
+            );
+        }
+    }
+
     @Override
     public GameScore saveGameScore(GameScore gameScore) {
+        validateScore(gameScore);
         return gameScoreRepository.save(gameScore);
     }
 
@@ -45,6 +58,19 @@ public class GameScoreImpl implements GameScoreService {
         return gameScoreRepository.findById(id);
     }
 
+    @Override
+    public List<GameScore> findByCriteria(String criteria) {
+        return List.of();
+    }
+
+    @Override
+    public void updateGameScore(GameScore gameScore) {
+        gameScoreRepository.save(gameScore);
+    }
+
+
+    // Update the DTO mapping to include scores
+    @Override
     public Map<String, GameScoreResponseDTO> getLatestGameScoresGroupedByAbt() {
         List<GameScore> latestScores = gameScoreRepository.findLatestSessionGameScores();
 
@@ -58,13 +84,36 @@ public class GameScoreImpl implements GameScoreService {
                 .collect(Collectors.groupingBy(
                         gs -> gs.getAbt().getAbtName(),
                         Collectors.collectingAndThen(Collectors.toList(), scores -> {
-                            GameScore first = scores.get(0); // all scores same session, same ABT
+                            GameScore first = scores.get(0);
+
+                            // Calculate category scores
+                            int technical = scores.stream()
+                                    .filter(gs -> gs.getCriteria().getType().equals("Technical Execution"))
+                                    .mapToInt(GameScore::getScore)
+                                    .sum();
+
+                            int customer = scores.stream()
+                                    .filter(gs -> gs.getCriteria().getType().equals("Customer Interaction"))
+                                    .mapToInt(GameScore::getScore)
+                                    .sum();
+
+                            int process = scores.stream()
+                                    .filter(gs -> gs.getCriteria().getType().equals("Investigation Process Efficiency"))
+                                    .mapToInt(GameScore::getScore)
+                                    .sum();
+
+                            int bonus = scores.stream()
+                                    .filter(gs -> gs.getCriteria().getType().equals("Bonus Points"))
+                                    .mapToInt(GameScore::getScore)
+                                    .sum();
 
                             List<CriteriaDTO> criteriaList = scores.stream()
-                                    .map(gs -> new CriteriaDTO(gs.getCriteria().getName(), gs.getCriteria().getPoints()))
+                                    .map(gs -> new CriteriaDTO(
+                                            gs.getCriteria().getName(),
+                                            gs.getCriteria().getPoints(),
+                                            gs.getScore()))
                                     .collect(Collectors.toList());
 
-                            // Get awards only for this ABT and latest session
                             List<Award> awards = awardRepository.findByAbtIdAndSessionId(
                                     first.getAbt().getId(), latestSessionId
                             );
@@ -77,19 +126,15 @@ public class GameScoreImpl implements GameScoreService {
                                     first.getSession().getName(),
                                     first.getSession().getDate(),
                                     criteriaList,
-                                    awardList
+                                    awardList,
+                                    technical,
+                                    customer,
+                                    process,
+                                    bonus,
+                                    technical + customer + process + bonus
                             );
                         })
                 ));
     }
-
-    @Override
-    public List<GameScore> findByCriteria(String criteria) {
-        return null;
-    }
-
-    @Override
-    public void updateGameScore(GameScore gameScore) {
-        gameScoreRepository.save(gameScore);
-    }
 }
+
