@@ -1,14 +1,11 @@
 package org.wso2.cs.pulse.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.wso2.cs.pulse.dto.AwardDTO;
-import org.wso2.cs.pulse.dto.CriteriaDTO;
-import org.wso2.cs.pulse.dto.GameScoreResponseDTO;
-import org.wso2.cs.pulse.entity.Award;
-import org.wso2.cs.pulse.entity.GameScore;
-import org.wso2.cs.pulse.repository.AwardRepository;
-import org.wso2.cs.pulse.repository.GameScoreRepository;
+import org.wso2.cs.pulse.dto.*;
+import org.wso2.cs.pulse.entity.*;
+import org.wso2.cs.pulse.repository.*;
 import org.wso2.cs.pulse.service.GameScoreService;
 
 import java.util.Collections;
@@ -24,7 +21,16 @@ public class GameScoreImpl implements GameScoreService {
     private final GameScoreRepository gameScoreRepository;
 
     @Autowired
-    private AwardRepository awardRepository;
+    private CriteriaRepository criteriaRepository;
+
+    @Autowired
+    private ABTRepository abtRepository;
+
+    @Autowired
+    private SessionRepository sessionRepository;
+
+    @Autowired
+    private AwardWinnerRepository awardRepository;
 
 
     public GameScoreImpl(final GameScoreRepository gameScoreRepository) {
@@ -43,9 +49,27 @@ public class GameScoreImpl implements GameScoreService {
     }
 
     @Override
-    public GameScore saveGameScore(GameScore gameScore) {
-        validateScore(gameScore);
-        return gameScoreRepository.save(gameScore);
+    @Transactional
+    public void saveGameScores(ScoreInputDTO input) {
+        Session session = sessionRepository.findById(input.getSessionId())
+                .orElseThrow(() -> new RuntimeException("Session not found"));
+
+        ABT abt = abtRepository.findById(input.getAbtId())
+                .orElseThrow(() -> new RuntimeException("ABT not found"));
+
+        for (CriteriaScoreDTO cs : input.getCriteriaScores()) {
+            Criteria criteria = criteriaRepository.findById(cs.getCriteriaId())
+                    .orElseThrow(() -> new RuntimeException("Criteria not found"));
+
+            GameScore score = new GameScore();
+            score.setSession(session);
+            score.setAbt(abt);
+            score.setCriteria(criteria);
+            score.setScore(cs.getScore());
+
+            validateScore(score);
+            gameScoreRepository.save(score);
+        }
     }
 
     @Override
@@ -114,12 +138,12 @@ public class GameScoreImpl implements GameScoreService {
                                             gs.getScore()))
                                     .collect(Collectors.toList());
 
-                            List<Award> awards = awardRepository.findByAbtIdAndSessionId(
+                            List<AwardWinner> awards = awardRepository.findByAbtIdAndSessionId(
                                     first.getAbt().getId(), latestSessionId
                             );
 
                             List<AwardDTO> awardList = awards.stream()
-                                    .map(a -> new AwardDTO(a.getAwardName(), a.getDescription(), a.getType()))
+                                    .map(a -> new AwardDTO(a.getAward().getAwardName(), a.getAward().getDescription(), a.getAward().getType()))
                                     .collect(Collectors.toList());
 
                             return new GameScoreResponseDTO(

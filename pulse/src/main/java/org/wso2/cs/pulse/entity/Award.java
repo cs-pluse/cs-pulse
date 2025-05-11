@@ -9,30 +9,29 @@ public class Award {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String awardName;
-    private String description;
-    private String type; //Team or Individual
-    @Column(name = "abt_id")
-    private Integer abtId;
 
-    @Column(name = "session_id")
-    private Integer sessionId;
+    private String awardName;
+
+    private String description;
+
+    private String type; // "Individual" or "Team"
 
     public Award() {
     }
 
-    public Award(String awardName, String description, Integer abtId, Integer sessionId) {
+    public Award(String awardName, String description, String type) {
         this.awardName = awardName;
         this.description = description;
-        this.abtId = abtId;
-        this.sessionId = sessionId;
+        this.type = type;
     }
+
+    // Getters and Setters
 
     public Integer getId() {
         return id;
     }
 
-    private void setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -58,21 +57,5 @@ public class Award {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Integer getAbtId() {
-        return abtId;
-    }
-
-    public void setAbtId(Integer abtId) {
-        this.abtId = abtId;
-    }
-
-    public Integer getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(Integer sessionId) {
-        this.sessionId = sessionId;
     }
 }

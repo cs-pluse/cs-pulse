@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wso2.cs.pulse.dto.GameScoreResponseDTO;
+import org.wso2.cs.pulse.dto.ScoreInputDTO;
 import org.wso2.cs.pulse.entity.GameScore;
 import org.wso2.cs.pulse.service.GameScoreService;
 
@@ -18,9 +19,9 @@ public class GameScoreController {
     private GameScoreService gameScoreService;
 
     @PostMapping
-    public ResponseEntity<GameScore> createGameScore(@RequestBody GameScore gameScore) {
-        GameScore savedGameScore = gameScoreService.saveGameScore(gameScore);
-        return ResponseEntity.ok(savedGameScore);
+    public ResponseEntity<Void> createGameScores(@RequestBody ScoreInputDTO input) {
+        gameScoreService.saveGameScores(input);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -33,15 +34,6 @@ public class GameScoreController {
     public ResponseEntity<GameScore> getGameScoreById(@PathVariable Long id) {
         return gameScoreService.getGameScoreById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<GameScore> updateGameScore(@PathVariable Long id, @RequestBody GameScore newGameScore) {
-        return gameScoreService.getGameScoreById(id)
-                .map(gameScore -> {
-                    return ResponseEntity.ok(gameScoreService.saveGameScore(gameScore));
-                })
                 .orElse(ResponseEntity.notFound().build());
     }
 
