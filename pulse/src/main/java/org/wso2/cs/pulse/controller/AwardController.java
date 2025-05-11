@@ -11,12 +11,8 @@ import java.util.List;
 @RequestMapping("/pulse/awards")
 public class AwardController {
 
-    private final AwardService awardService;
-
     @Autowired
-    public AwardController(AwardService awardService) {
-        this.awardService = awardService;
-    }
+    private AwardService awardService;
 
     @PostMapping
     public Award createAward(@RequestBody Award award) {
@@ -26,15 +22,5 @@ public class AwardController {
     @GetMapping
     public List<Award> getAllAwards() {
         return awardService.getAllAwards();
-    }
-
-    @GetMapping("/{id}")
-    public Award getAwardById(@PathVariable Integer id) {
-        return awardService.getAwardById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteAward(@PathVariable Integer id) {
-        awardService.deleteAward(id);
     }
 }

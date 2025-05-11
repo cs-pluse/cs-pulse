@@ -5,13 +5,6 @@ import org.wso2.cs.pulse.entity.Award;
 import java.util.List;
 
 public interface AwardService {
-
     Award saveAward(Award award);
-
     List<Award> getAllAwards();
-
-    Award getAwardById(Integer id);
-
-    void deleteAward(Integer id);
-
 }

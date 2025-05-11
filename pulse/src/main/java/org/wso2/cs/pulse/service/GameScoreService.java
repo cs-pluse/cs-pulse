@@ -1,6 +1,7 @@
 package org.wso2.cs.pulse.service;
 
 import org.wso2.cs.pulse.dto.GameScoreResponseDTO;
+import org.wso2.cs.pulse.dto.ScoreInputDTO;
 import org.wso2.cs.pulse.entity.GameScore;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 public interface GameScoreService {
 
-    GameScore saveGameScore(GameScore gameScore);
+    void saveGameScores(ScoreInputDTO input);
 
     void deleteGameScore(Long id);
 
